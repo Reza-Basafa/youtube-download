@@ -29,8 +29,10 @@ def yt_dlp_cmd(url, output_template, playlist):
     )
     no_playlist = "" if playlist else "--no-playlist"
     cookies = f'--cookies "{COOKIES_FILE}"' if COOKIES_FILE else ""
+    # ios client bypasses YouTube's JS n-challenge that blocks bot downloads
     return (
         f'yt-dlp -f "{fmt}" --merge-output-format mp4 '
+        f'--extractor-args "youtube:player_client=ios,web" '
         f"--write-info-json {no_playlist} {cookies} "
         f'-o "{output_template}" "{url}"'
     )
