@@ -22,10 +22,15 @@ jobs:
       - name: Install yt-dlp
         run: pip install -q yt-dlp
 
+      - name: Write cookies file
+        if: ${{ secrets.YOUTUBE_COOKIES != '' }}
+        run: echo "${{ secrets.YOUTUBE_COOKIES }}" > /tmp/yt-cookies.txt
+
       - name: Process pending videos
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
+          COOKIES_FILE: ${{ secrets.YOUTUBE_COOKIES != '' && '/tmp/yt-cookies.txt' || '' }}
         run: python scripts/process.py
 
       - name: Commit updated videos.json

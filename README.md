@@ -131,6 +131,34 @@ Videos are downloaded at **720p maximum**. This keeps file sizes manageable and 
 
 ---
 
+## YouTube bot / sign-in error
+
+If a video fails with *"Sign in to confirm you're not a bot"*, YouTube is blocking the download. Fix it by providing your YouTube cookies as a secret.
+
+### Step 1 — Export your cookies
+
+Install the **Get cookies.txt LOCALLY** browser extension ([Chrome](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) / [Firefox](https://addons.mozilla.org/firefox/addon/cookies-txt/)).
+
+1. Log in to [youtube.com](https://youtube.com) in your browser
+2. Click the extension icon while on youtube.com
+3. Export cookies in **Netscape format** — you'll get a `.txt` file
+
+### Step 2 — Add as a GitHub secret
+
+1. Go to your repo → **Settings → Secrets and variables → Actions**
+2. Click **New repository secret**
+3. Name: `YOUTUBE_COOKIES`
+4. Value: paste the entire contents of the `.txt` file
+5. Click **Add secret**
+
+### Step 3 — Re-set the failed entry to pending
+
+In `videos.json`, change `"status": "failed"` back to `"status": "pending"` and push.
+
+> **Security note:** cookies give access to your YouTube account. Never commit them to the repo — the GitHub secret is the safe way to store them.
+
+---
+
 ## Troubleshooting
 
 **The workflow didn't trigger**

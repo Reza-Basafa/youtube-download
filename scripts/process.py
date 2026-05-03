@@ -9,6 +9,7 @@ from pathlib import Path
 
 VIDEOS_JSON = Path(__file__).parent.parent / "videos.json"
 REPO = os.environ["REPO"]
+COOKIES_FILE = os.environ.get("COOKIES_FILE", "").strip()
 MAX_PART_BYTES = 1_900 * 1024 * 1024  # 1.9 GB
 
 
@@ -27,9 +28,10 @@ def yt_dlp_cmd(url, output_template, playlist):
         "/best[height<=720]"
     )
     no_playlist = "" if playlist else "--no-playlist"
+    cookies = f'--cookies "{COOKIES_FILE}"' if COOKIES_FILE else ""
     return (
         f'yt-dlp -f "{fmt}" --merge-output-format mp4 '
-        f"--write-info-json {no_playlist} "
+        f"--write-info-json {no_playlist} {cookies} "
         f'-o "{output_template}" "{url}"'
     )
 
